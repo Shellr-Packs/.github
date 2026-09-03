@@ -1,0 +1,38 @@
+name: Bug report
+description: Something behaves differently to how it is documented.
+labels: ["bug"]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        If this touches funds, the draw, or a private key, close this and mail
+        `security@shellr.trade` instead. A public issue is a public exploit.
+  - type: dropdown
+    id: area
+    attributes:
+      label: Where
+      options:
+        - shellr-web (the site)
+        - shellr-contracts
+        - shellr-keeper
+        - shellr-sdk
+        - Not sure
+    validations:
+      required: true
+  - type: textarea
+    id: what
+    attributes:
+      label: What happened
+      description: What you did, what you expected, what you got.
+    validations:
+      required: true
+  - type: input
+    id: pack
+    attributes:
+      label: Pack ID or transaction hash
+      description: If a pack is involved, this is the fastest way for us to see it.
+  - type: textarea
+    id: environment
+    attributes:
+      label: Environment
+      description: Wallet, browser, node version, SDK version - whatever is relevant.

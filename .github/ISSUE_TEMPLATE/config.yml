@@ -1,0 +1,8 @@
+blank_issues_enabled: true
+contact_links:
+  - name: Security disclosure
+    url: https://github.com/Shellr-Packs/.github/blob/main/SECURITY.md
+    about: Anything touching funds, the draw, or keys. Not a public issue.
+  - name: Shellr on X
+    url: https://x.com/shellr_co
+    about: Announcements, and the fastest way to reach a human.

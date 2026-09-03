@@ -1,0 +1,41 @@
+name: Fairness dispute
+description: A pack settled with a result you believe does not match its commitment.
+labels: ["fairness", "priority"]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Before filing, run the check yourself - it takes about thirty seconds
+        and tells you which of the two failures you are looking at:
+
+        ```ts
+        import { createPublicClient, http } from "viem";
+        import { robinhoodChain, readDrawConfig, readPack, verifyPack } from "@shellr/sdk";
+
+        const client = createPublicClient({ chain: robinhoodChain, transport: http() });
+        console.log(verifyPack(await readPack(client, PACK_ID), await readDrawConfig(client)));
+        ```
+
+        A **commitment mismatch** means the revealed secret does not hash to the
+        commitment the pack took at purchase. That is serious and we want it.
+
+        A **seed or line-up mismatch** with a passing commitment usually means
+        the SDK's mirror of the draw has drifted from the deployed contract.
+        Still worth filing, but it is a bug in this repository, not fraud.
+  - type: input
+    id: pack
+    attributes:
+      label: Pack ID
+    validations:
+      required: true
+  - type: textarea
+    id: output
+    attributes:
+      label: verifyPack output
+      render: text
+    validations:
+      required: true
+  - type: input
+    id: sdk
+    attributes:
+      label: "@shellr/sdk version"
