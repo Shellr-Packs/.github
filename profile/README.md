@@ -60,6 +60,7 @@ token and funds the pack out of its own bankroll instead of swapping.
 | [**shellr-web**](https://github.com/Shellr-Packs/shellr-web) | shellr.trade. The pack-opening theatre, the vault, staking, the stock desk. | Next.js 16, wagmi, three.js |
 | [**shellr-keeper**](https://github.com/Shellr-Packs/shellr-keeper) | Keeps the seed queue full and reveals every pack. One process, no database. | Node 20, viem, Railway |
 | [**shellr-sdk**](https://github.com/Shellr-Packs/shellr-sdk) | Reads, calldata, and `verifyPack` - recompute a settled pack and check it. | TypeScript, viem |
+| [**shellr-stock-packs**](https://github.com/Shellr-Packs/shellr-stock-packs) | One tokenized share per pack, routed through Voxelithic's book. | TypeScript, viem |
 
 The one worth reading first is **shellr-sdk**. It contains a mirror of the
 contract's draw, which means the fairness claim above is something you can run
@@ -93,10 +94,31 @@ Robinhood Chain mainnet, chain ID **4663**.
 | ShellrStaking | [`0xee341fb06627c650e45552ffce5159e7d19e2506`](https://robinhoodchain.blockscout.com/address/0xee341fb06627c650e45552ffce5159e7d19e2506) |
 | $SHELLR | [`0x77a719b0f3e7072fc80ed5d67f9aaa580b245462`](https://robinhoodchain.blockscout.com/address/0x77a719b0f3e7072fc80ed5d67f9aaa580b245462) |
 
-**Stock Packs** fill through [Voxelithic Protocol](https://voxelithic.xyz)'s
-router rather than a Uniswap pool, because tokenized equities on this chain do
-not have deep single-pool liquidity. One random symbol per pack, currently NVDA,
-SPY, TSLA, AAPL, MSTR and COIN.
+### Stock Packs, built with Voxelithic
+
+The same mechanic, filled with one tokenized equity instead of nine memecoins.
+Currently NVDA, SPY, TSLA, AAPL, MSTR and COIN.
+
+We built these together with
+[**Voxelithic Protocol**](https://github.com/Voxelithicag), who run the
+liquidity layer for this chain - six venues read into one book. Tokenized
+equities here do not have the single-pool depth that would make a direct
+Uniswap path honest, so packs fill through
+[their router](https://github.com/Voxelithicag/contracts) instead.
+
+That collaboration also turned up the thing most likely to break an integration
+on this chain: **a ticker is not an identifier**. Thirty-nine contracts answer
+to a stock symbol that is not theirs, and the deepest of them holds over half a
+million dollars of liquidity while trading pennies a day. A pack that resolved
+tickers by searching an indexer would eventually drop one of those instead of
+the share you paid for, and nothing on the explorer would look wrong. So nothing
+does: every address comes from
+[`voxelithic-interfaces`](https://github.com/Voxelithicag/interfaces), which is
+generated from the router's own configuration and checked against the chain
+before it is published.
+
+The write-up, including what did not work, is in
+[shellr-stock-packs](https://github.com/Shellr-Packs/shellr-stock-packs#built-with-voxelithic-protocol).
 
 ---
 
