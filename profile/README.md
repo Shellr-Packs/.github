@@ -5,7 +5,7 @@
 <br /><br />
 
 [![Site](https://img.shields.io/badge/site-shellr.trade-ff3a6e?style=flat-square)](https://shellr.trade)
-[![Chain](https://img.shields.io/badge/chain-Robinhood%20Chain%20·%204663-a6e62c?style=flat-square)](https://robinhoodchain.blockscout.com)
+![Chain](https://img.shields.io/badge/chain-Robinhood%20Chain%20·%204663-a6e62c?style=flat-square)
 [![Fairness](https://img.shields.io/badge/randomness-commit--reveal-31d67a?style=flat-square)](https://github.com/Shellr-Packs/shellr-contracts#provable-fairness)
 [![Audit](https://img.shields.io/badge/audit-none-f5c420?style=flat-square)](#a-standing-warning)
 [![X](https://img.shields.io/badge/x-@shellr__co-white?style=flat-square)](https://x.com/shellr_co)
@@ -72,8 +72,9 @@ import { robinhoodChain, readDrawConfig, readPack, verifyPack } from "@shellr/sd
 
 const client = createPublicClient({ chain: robinhoodChain, transport: http() });
 
-const config = await readDrawConfig(client);
-const pack = await readPack(client, 1337n);
+// Addresses are yours to supply - the SDK ships none.
+const config = await readDrawConfig(client, packsAddress);
+const pack = await readPack(client, 1337n, packsAddress);
 
 const { ok, reason, drawn } = verifyPack(pack, config);
 //  ok    -> the revealed secret hashes to the commitment queued before the buy,
@@ -82,43 +83,6 @@ const { ok, reason, drawn } = verifyPack(pack, config);
 ```
 
 ---
-
-## Deployed
-
-Robinhood Chain mainnet, chain ID **4663**.
-
-| Contract | Address |
-|---|---|
-| ShellrPacks | [`0xe442c40cD9e99a9D37f9a364794bC8959c2D4ebe`](https://robinhoodchain.blockscout.com/address/0xe442c40cD9e99a9D37f9a364794bC8959c2D4ebe) |
-| ShellrStockPacks | [`0x0993DD2656B6e2b9A5F4e240Bd3400EF519A2Df1`](https://robinhoodchain.blockscout.com/address/0x0993DD2656B6e2b9A5F4e240Bd3400EF519A2Df1) |
-| ShellrStaking | [`0xee341fb06627c650e45552ffce5159e7d19e2506`](https://robinhoodchain.blockscout.com/address/0xee341fb06627c650e45552ffce5159e7d19e2506) |
-| $SHELLR | [`0x77a719b0f3e7072fc80ed5d67f9aaa580b245462`](https://robinhoodchain.blockscout.com/address/0x77a719b0f3e7072fc80ed5d67f9aaa580b245462) |
-
-### Stock Packs, built with Voxelithic
-
-The same mechanic, filled with one tokenized equity instead of nine memecoins.
-Currently NVDA, SPY, TSLA, AAPL, MSTR and COIN.
-
-We built these together with
-[**Voxelithic Protocol**](https://github.com/Voxelithicag), who run the
-liquidity layer for this chain - six venues read into one book. Tokenized
-equities here do not have the single-pool depth that would make a direct
-Uniswap path honest, so packs fill through
-[their router](https://github.com/Voxelithicag/contracts) instead.
-
-That collaboration also turned up the thing most likely to break an integration
-on this chain: **a ticker is not an identifier**. Thirty-nine contracts answer
-to a stock symbol that is not theirs, and the deepest of them holds over half a
-million dollars of liquidity while trading pennies a day. A pack that resolved
-tickers by searching an indexer would eventually drop one of those instead of
-the share you paid for, and nothing on the explorer would look wrong. So nothing
-does: every address comes from
-[`voxelithic-interfaces`](https://github.com/Voxelithicag/interfaces), which is
-generated from the router's own configuration and checked against the chain
-before it is published.
-
-The write-up, including what did not work, is in
-[shellr-stock-packs](https://github.com/Shellr-Packs/shellr-stock-packs#built-with-voxelithic-protocol).
 
 ---
 
