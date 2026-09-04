@@ -33,11 +33,11 @@ calldata and anyone can recompute the draw from public data.
 
 **The house edge is arithmetic, not vibes.** A pack does not spend your stake.
 It spends your stake times a multiplier drawn from the same seed, across seven
-published bands with published odds. At the shipped defaults that averages
-9220 basis points - a hair over 92% back - with about 40% of packs landing
-above what they cost. The ends are 0.20x and 1.70x. Those numbers are readable
-off the contract, and `expectedPayoutBps` in the SDK computes the mean from
-them so nobody has to take our word for it.
+bands. The odds of each band and the ends of each multiplier are public state
+on the contract, so they can be read directly rather than taken on trust, and
+`expectedPayoutBps` in the SDK turns them into the mean they imply. Read them
+off the chain: what a README claims and what the contract enforces are two
+different things, and only one of them decides your pack.
 
 <div align="center">
 
