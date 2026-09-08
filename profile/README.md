@@ -84,6 +84,26 @@ const { ok, reason, drawn } = verifyPack(pack, config);
 
 ---
 
+## The launchpad
+
+Launching a token is a solved problem on this chain, so we did not rebuild it.
+A launch here goes through [pons](https://ponsfamily.com) and redirects exactly
+one thing: where the creator's share of the standard trading fee lands.
+
+It lands in a vault, one per launch. That vault claims from pons' escrow, spends
+most of it buying the coins of a pack the creator picked at launch, and burns
+the rest as $SHELLR. The people holding the token get the pack's coins, and
+nobody had to stake anything or hold a second token to make it happen.
+
+**No extra tax is charged.** pons lets a creator add one on every trade. Using
+it would make a token launched here more expensive to trade than the identical
+token launched anywhere else, and a token that is worse to trade is a token that
+does not trade. The money being redirected already existed.
+
+The write-up, including the part that is not finished - the contract that hands
+those coins to holders - is in
+[shellr-contracts](https://github.com/Shellr-Packs/shellr-contracts#the-launchpad).
+
 ---
 
 ## A standing warning
